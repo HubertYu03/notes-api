@@ -6,9 +6,7 @@ export const createNoteSchema = z.object({
   content: z.string().min(1),
 });
 
-export type createNoteSchema = {
-  Body: z.infer<typeof createNoteSchema>;
-};
+export type createNoteInput = z.infer<typeof createNoteSchema>;
 
 // Updating Note Schema
 export const updateNoteSchema = z.object({
@@ -16,6 +14,4 @@ export const updateNoteSchema = z.object({
   content: z.string().optional(),
 });
 
-export type updateNoteSchema = {
-  Body: z.infer<typeof updateNoteSchema>;
-};
+export type updateNoteInput = z.infer<typeof updateNoteSchema>;

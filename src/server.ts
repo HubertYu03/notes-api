@@ -1,12 +1,16 @@
 import Fastify from "fastify";
-
-import registerRoutes from "./routes";
+import { noteRoutes } from "./routes/note.routes";
+import { registerErrorHandler } from "./utils/errorHandler";
 
 const app = Fastify({
   logger: true,
 });
 
-app.register(registerRoutes);
+// Register Routs
+app.register(noteRoutes);
+
+// Register Global error handlers
+registerErrorHandler(app);
 
 const start = async () => {
   try {

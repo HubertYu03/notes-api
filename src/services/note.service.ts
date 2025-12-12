@@ -31,7 +31,7 @@ export const getNoteById = async (id: string): Promise<Note | undefined> => {
 // Update a note based on its ID
 export const updateNote = async (
   id: string,
-  data: { title?: string; content?: string }
+  data: { title?: string | undefined; content?: string | undefined }
 ): Promise<Note | null> => {
   const noteIdx: number = notes.findIndex((n) => n.id === Number(id));
 
