@@ -1,12 +1,12 @@
 import Fastify from "fastify";
 
+import registerRoutes from "./routes";
+
 const app = Fastify({
   logger: true,
 });
 
-app.get("/health", async () => {
-  return { status: "ok" };
-});
+app.register(registerRoutes);
 
 const start = async () => {
   try {
