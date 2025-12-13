@@ -1,3 +1,8 @@
+// The controller layer receives the HTTP requests and extracts the data from that request.
+// Then it gets the returned items from the service layer and returns it back to the client
+
+// In the restaurant, it is like the waitress that takes orders from the customer and brings back the food
+
 import type { FastifyReply, FastifyRequest } from "fastify";
 import {
   createNote,

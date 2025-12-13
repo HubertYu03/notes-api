@@ -3,7 +3,6 @@
 
 import { prisma } from "../utils/prisma";
 import type { createNoteInput, updateNoteInput } from "../schema/note.schema";
-import { da, id } from "zod/v4/locales";
 
 // Create a new note
 export const createNote = async (data: createNoteInput) => {
