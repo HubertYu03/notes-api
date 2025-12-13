@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import { noteRoutes } from "./routes/note.routes";
 import { registerErrorHandler } from "./utils/errorHandler";
+import "dotenv/config";
 
 const app = Fastify({
   logger: true,

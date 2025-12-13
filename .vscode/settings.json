@@ -1,0 +1,15 @@
+{
+    "sqltools.connections": [
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 51214,
+            "driver": "PostgreSQL",
+            "database": "template1",
+            "username": "postgres",
+            "name": "Primsa Local DB",
+            "password": "postgres"
+        }
+    ]
+}

@@ -1,55 +1,40 @@
 // The service layer contains all of the transactional services, validations, and overall the bulk of the work
 // In a restaurant, it is like the chef who does all the cooking
 
-import type { Note } from "../types/global";
-
-let notes: Note[] = [];
-let idCounter: number = 1;
+import { prisma } from "../utils/prisma";
+import type { createNoteInput, updateNoteInput } from "../schema/note.schema";
+import { da, id } from "zod/v4/locales";
 
 // Create a new note
-export const createNote = async (data: { title: string; content: string }) => {
-  const newNote: Note = {
-    id: idCounter++,
-    title: data.title,
-    content: data.content,
-  };
-
-  notes.push(newNote);
-  return newNote;
+export const createNote = async (data: createNoteInput) => {
+  return prisma.note.create({ data });
 };
 
 // Get all the existing notes
 export const getNotes = async () => {
-  return notes;
+  return prisma.note.findMany();
 };
 
 // Get a specific note by its ID
-export const getNoteById = async (id: string): Promise<Note | undefined> => {
-  return notes.find((n) => n.id === Number(id));
+export const getNoteById = async (id: string) => {
+  return prisma.note.findUnique({ where: { id: Number(id) } });
 };
 
 // Update a note based on its ID
-export const updateNote = async (
-  id: string,
-  data: { title?: string | undefined; content?: string | undefined }
-): Promise<Note | null> => {
-  const noteIdx: number = notes.findIndex((n) => n.id === Number(id));
+export const updateNote = async (id: string, data: updateNoteInput) => {
+  // First clean the data
+  const cleanData = Object.fromEntries(
+    Object.entries(data).filter(([_, value]) => value !== undefined)
+  );
 
-  // Check if our note exists
-  const note: Note | undefined = notes[noteIdx];
-  if (!note) return null;
-
-  Object.assign(note, data);
-  return note;
+  return prisma.note.update({
+    where: { id: Number(id) },
+    data: cleanData,
+  });
 };
 
-export const deleteNote = async (id: string): Promise<Note | null> => {
-  const noteIdx = notes.findIndex((n) => n.id === Number(id));
-
-  // Check if our note exists
-  const deletedNote: Note | undefined = notes[noteIdx];
-  if (!deletedNote) return null;
-
-  notes.splice(noteIdx, 1);
-  return deletedNote;
+export const deleteNote = async (id: string) => {
+  return prisma.note.delete({
+    where: { id: Number(id) },
+  });
 };

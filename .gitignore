@@ -1,2 +1,4 @@
 .env
 *.http
+
+/src/generated/prisma
