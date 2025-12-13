@@ -11,3 +11,19 @@ Content-Type: application/json
   "title": "My First Note",
   "content": "This is my first created note!"
 }
+
+###
+
+##
+PUT http://localhost:3000/notes/4 HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "My First Note Updated Name",
+  "content": "This is my first created note! I wanted to add an extra sentence."
+}
+
+###
+
+##
+DELETE http://localhost:3000/notes/3
