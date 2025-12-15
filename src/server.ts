@@ -7,12 +7,13 @@ const app = Fastify({
   logger: true,
 });
 
-// Register Routs
-app.register(noteRoutes);
-
 // Register Global error handlers
 registerErrorHandler(app);
 
+// Register Routs
+app.register(noteRoutes, { prefix: "/api" });
+
+// Function that starts the node app
 const start = async () => {
   try {
     await app.listen({ port: 3000 });

@@ -7,7 +7,11 @@ import {
   deleteNoteHandler,
 } from "../controllers/note.controller";
 import { validate } from "../utils/validate";
-import { createNoteSchema, type updateNoteInput } from "../schema/note.schema";
+import {
+  createNoteSchema,
+  updateNoteSchema,
+  type updateNoteInput,
+} from "../schema/note.schema";
 
 export const noteRoutes = async (app: FastifyInstance) => {
   app.post(
@@ -25,7 +29,7 @@ export const noteRoutes = async (app: FastifyInstance) => {
     Body: updateNoteInput;
   }>(
     "/notes/:id",
-    { preHandler: validate(createNoteSchema) },
+    { preHandler: validate(updateNoteSchema) },
     updateNoteHandler
   );
 

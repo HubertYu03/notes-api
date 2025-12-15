@@ -14,13 +14,15 @@ import {
 import type { createNoteInput, updateNoteInput } from "../schema/note.schema";
 
 import type { Note } from "../types/global";
+import { createNotFoundError } from "../errors/error.types";
 
 // Handler for creating a note
 export const createNoteHandler = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const note = await createNote(request.body as createNoteInput);
+  const note: Note = await createNote(request.body as createNoteInput);
+
   return reply.code(201).send(note);
 };
 
@@ -33,7 +35,13 @@ export const getNotesHandler = async () => {
 export const getNoteHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>
 ) => {
-  return await getNoteById(request.params.id);
+  const note: Note | null = await getNoteById(request.params.id);
+
+  if (!note) {
+    throw createNotFoundError("Note", request.params.id);
+  }
+
+  return note;
 };
 
 // Handler for updating a specific note based on ID
@@ -48,9 +56,12 @@ export const updateNoteHandler = async (
     request.params.id,
     request.body
   );
-  if (!updatedNote) return reply.code(404).send({ error: "Note not found!" });
 
-  return updatedNote;
+  if (!updatedNote) {
+    throw createNotFoundError("Note", request.params.id);
+  }
+
+  return reply.send(updatedNote);
 };
 
 export const deleteNoteHandler = async (
@@ -60,7 +71,10 @@ export const deleteNoteHandler = async (
   reply: FastifyReply
 ) => {
   const deletedNote: Note | null = await deleteNote(request.params.id);
-  if (!deletedNote) return reply.code(404).send({ error: "Note not found!" });
+
+  if (!deletedNote) {
+    throw createNotFoundError("Note", request.params.id);
+  }
 
   return reply.code(204).send(deletedNote);
 };
